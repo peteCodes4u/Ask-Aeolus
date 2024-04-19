@@ -4,13 +4,6 @@ const city = document.getElementById('city');
 // establish constant for askAoelus button to pull data
 const askAeolusBtn = document.getElementById('askAeolus');
 
-// set time out for getCoordinates so that it does not fire off before data exists
-setTimeout(()=> {
-    getCoordinates();
-  }, 2000)
-
-  let latLong = [] || '';
-
 // event listener to set city and run city search for lat / long
 askAeolusBtn.addEventListener("click", function(){
 
@@ -28,10 +21,8 @@ const getCoordinates = function () {
   .then(response => localStorage.setItem('cityInfo', JSON.stringify(response)))
   .catch(err => console.error(err));
 
-// adds delay to execute get latLong to ensure api has returned the necessary data
   setTimeout(()=> {
     getLatLong();
-    getWeatherData();
   }, 2000)
 
 };
@@ -40,7 +31,7 @@ const getCoordinates = function () {
 const getLatLong = function() {
 
 let cityInfoData = JSON.parse(localStorage.getItem('cityInfo'));
-
+let latLong = [];
 
 latLong.push(cityInfoData[0].boundingbox[0]);
 latLong.push(cityInfoData[0].boundingbox[2]);
@@ -53,17 +44,8 @@ const getWeatherData = function(){
 // openweather api key
 const wApiKey = 'f83ed09bfef7deff4712ba233666aef9'
 
-// get lat/long from localstorage
-const latLongData = JSON.parse(localStorage.getItem('latLong'))
-const latitude = parseFloat(latLongData[0]);
-const longitude = parseFloat(latLongData[1]);
-
-// round the data for API consumption
-const roundLat = latitude.toFixed(2);
-const roundLong = longitude.toFixed(2); 
-
 // get the data from the api
-fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${roundLat}&lon=${roundLong}&appid=${wApiKey}`, {
+fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=28.00&lon=-82.68&appid=${wApiKey}`, {
   method: 'GET', 
   credentials: 'same-origin', 
   redirect: 'follow', 
@@ -81,3 +63,29 @@ fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${roundLat}&lon=${ro
 
 };
 
+
+  // get location 
+
+  // https://www.geoapify.com/how-to-get-user-location-with-javascript
+if ("geolocation" in navigator) {
+  // Prompt user for permission to access their location
+  navigator.geolocation.getCurrentPosition(
+    // Success callback function
+    (position) => {
+      // Get the user's latitude and longitude coordinates
+      const lat = position.coords.latitude;
+      const lng = position.coords.longitude;
+
+      // Do something with the location data, e.g. display on a map
+      console.log(`Latitude: ${lat}, longitude: ${lng}`);
+    },
+    // Error callback function
+    (error) => {
+      // Handle errors, e.g. user denied location sharing permissions
+      console.error("Error getting user location:", error);
+    }
+  );
+} else {
+  // Geolocation is not supported by the browser
+  console.error("Geolocation is not supported by this browser.");
+}
