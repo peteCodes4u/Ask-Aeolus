@@ -9,15 +9,13 @@ const generateResults = function () {
   
       while(weatherDataArray.length < 5) {
   
-        weatherDataArray[0]..push(forcastData)
+        weatherDataArray[0].push(forcastData)
         weatherDataArray[1].push(forcastData)
         weatherDataArray[2].push(forcastData)
         weatherDataArray[3].push(forcastData)
         weatherDataArray[4].push(forcastData)
         weatherDataArray[5].push(forcastData)
       }
-      
-  
     })
   
   
@@ -55,4 +53,22 @@ const generateResults = function () {
     
     };
   
-  
+    const groomForecastWeatherResults = function () {
+      const fiveDayforecast = JSON.parse(localStorage.getItem('5dayforecast'));
+      let aeolusPredictsThisWeek = []; // Initialize the array outside the loop
+    
+      for (let i = 0; i < fiveDayforecast.length; i++) {
+        let temp = fiveDayforecast[i].main.temp;
+        
+        // Create an object for each day's temperature
+        let dayTemperature = {
+          temp: temp
+        };
+    
+        // Push the day's temperature object to the array
+        aeolusPredictsThisWeek.push(dayTemperature);
+      }
+    
+      // Set the array containing all day temperatures in local storage
+      localStorage.setItem("aeolusPredictsThisWeek", JSON.stringify(aeolusPredictsThisWeek));
+    };
