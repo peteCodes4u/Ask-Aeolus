@@ -16,31 +16,34 @@
   <title>Ask Aeolus</title>
 </head>
 <body class="min-100-vh flex-column">
-    <header class="p-5 text-left text-white bg-primary">
+    <header class="p-5 text-left text-white bg-primary d-flex justify-content-center">
       <span> 
         <h1> <img src="./assets/images/ask-aeolus-1.png"> Ask Aeolus!</h1>
         <small id="subTitle">A weather forcasting app for your travel needs.</small>
       </span>
     </header>
     <br>
-    <main class="d-flex">
-        <div class="col-12 col-md-4">
+    <main class="d-flex justify-content-center">
+        <div class="col-12 col-md-3">
           <div class="card">
-            <h3 class="card-header text-uppercase">Search for a city</h3>
-            <form id="user-form" class="card-body">
+            <h3 class="card-header text-uppercase d-flex justify-content-center">Search for a city</h3>
+            <form id="user-form" class="card-body d-flex justify-content-center">
               <label class="form-label" for="city">City</label>
               <input name="city" id="city" type="text" autofocus="true" class="form-input" />
               <button id="askAeolus" class="btn btn-block btn-success w-20" type="submit" class="btn">Ask Aeolus!</button>
             </form>
           </div>
           <br>
+          <section class="col-12 col-md-8" id="todayWeather">
+            <h2>Today's Weather</h2>
+          </section>
+          <br>
         <div class="col-12 col-md-8">
           <h2 class="subtitle">5 Day forcast for: <span id="repo-search-term"></span></h2>
           <div id="forcast-container" class="d-flex flex-row"></div>
         </div>
-
       </main>
     <script src="https://unpkg.com/axios@1.6.7/dist/axios.min.js"></script>
-    <script src="./assets/js/script.js"></script>
+    <script src="./assets/js/scriptE2.js"></script>
   </body>
 </html>
