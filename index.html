@@ -25,7 +25,7 @@
     </header>
     <br>
     <main class="d-flex justify-content-center">
-        <div class="col-12 col-md-3">
+        <div>
           <div class="card">
             <h3 class="card-header text-uppercase d-flex justify-content-center">Search for a city</h3>
             <form id="user-form" class="card-body d-flex justify-content-center">
@@ -34,12 +34,10 @@
               <button id="askAeolus" class="btn btn-block btn-success w-20" type="submit" class="btn">Ask Aeolus!</button>
             </form>
           </div>
-          <br>
-          <section class="col-12 col-md-8" id="todayWeather">
+          <section class="col-12 col-md-8 m-5 justify-content-center" id="todayWeather">
             <h2 class="text-center">Today's Weather:</h2>
           </section>
-          <br>
-        <div class="col-12 col-md-8">
+        <div class="row" id="forecast">
           <h2 class="subtitle text-center">5 Day forecast: <span id="repo-search-term"></span></h2>
           <div id="forecast-container" class="d-flex flex-row"></div>
         </div>

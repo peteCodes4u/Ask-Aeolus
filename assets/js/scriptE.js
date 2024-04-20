@@ -17,58 +17,41 @@ const generateResults = function () {
         weatherDataArray[5].push(forcastData)
       }
     })
+
+ 
+
+    const displayForecastResults = function () {
+      const forecastArray = JSON.parse(localStorage.getItem('aeolusPredictsThisWeek')) || [];
   
+      const container = document.getElementById('forecast');
+      // Add Bootstrap row class to the container
   
-    
-    
-       // Event data array
-       const eventData = [
-    
-        {
-            title: item.name,
-            imageSrc: item.imageUrl,
-            url: item.ticketingUrl
-        },
-    
-      ];
-      
-      // Get the container element to append the dynamically created HTML
-      const container = document.querySelector('.container-lg .row');
-      
-      // Loop through the event data array and create HTML for each event
-      eventData.forEach((event, index) => {
-        const eventHtml = `
-            <div class="col m-3 p-3 rounded text-center cards">
-                <h1 class="text-decoration-underline">${event.title}</h1>
-                <img src="${event.imageSrc}" height="200px" width="300px" class="p-1" id="event${index + 1}-photo">
-                <p><a href="${event.url}" id="event${index + 1}-url">Link to Event!</a></p>
-            </div
-            `;
-      
-        // Append the dynamically created event HTML to the container
-        container.insertAdjacentHTML('beforeend', eventHtml);
+      forecastArray.forEach(item => {
+          const forecastData = [
+              {
+                  temp: item.temp,
+                  humidity: item.humidity,
+                  wind: item.wind,
+                  weather: item.weather
+              },
+          ];
+  
+          forecastData.forEach((day) => {
+              const forecastHtml = `
+                  <div class="col-md-3 m-3 rounded text-center cards">
+                      <div class="card"> 
+                          <div class="card-body">
+                              <h1>${Math.round(day.temp)}°F</h1>
+                              <p>Humidity: ${day.humidity}%</p>
+                              <p>Wind: ${day.wind} MPH</p>
+                              <p>${day.weather}</p>
+                          </div>
+                      </div>
+                  </div>
+              `;
+  
+              // Append the dynamically created forecast card HTML to the container
+              container.insertAdjacentHTML('beforeend', forecastHtml);
+          });
       });
-    
-  
-    
-    };
-  
-    const groomForecastWeatherResults = function () {
-      const fiveDayforecast = JSON.parse(localStorage.getItem('5dayforecast'));
-      let aeolusPredictsThisWeek = []; // Initialize the array outside the loop
-    
-      for (let i = 0; i < fiveDayforecast.length; i++) {
-        let temp = fiveDayforecast[i].main.temp;
-        
-        // Create an object for each day's temperature
-        let dayTemperature = {
-          temp: temp
-        };
-    
-        // Push the day's temperature object to the array
-        aeolusPredictsThisWeek.push(dayTemperature);
-      }
-    
-      // Set the array containing all day temperatures in local storage
-      localStorage.setItem("aeolusPredictsThisWeek", JSON.stringify(aeolusPredictsThisWeek));
-    };
+  };
