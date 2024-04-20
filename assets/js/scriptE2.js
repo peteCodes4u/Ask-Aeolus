@@ -191,5 +191,27 @@ const groomForecastWeatherResults = function () {
 };
 
 
-// display resutls
-const displayResults = function () {};
+// display results for today's weather
+const displayTodayResults = function () {
+
+const todayWeather = JSON.parse(localStorage.getItem('aeolusPredictsToday'))
+
+// Get the container element to append the dynamically created HTML
+const container = document.getElementById('todayWeather');
+
+
+  const todayWeatherHtml = `
+      <div class="col m-3 p-3 rounded text-center cards">
+          <h1>${Math.round(todayWeather[0].temp)}°F</h1>
+          <p><a>humiditiy: ${todayWeather[0].humidity}%</a></p>
+          <p><a>wind: ${todayWeather[0].wind} MPH</a></p>
+          <p><a>${todayWeather[0].weather}</a></p>
+          
+      </div >
+      `;
+
+  // Append the dynamically created event HTML to the container
+  container.insertAdjacentHTML('beforeend', todayWeatherHtml);
+
+
+};
