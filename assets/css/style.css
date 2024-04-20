@@ -5,3 +5,8 @@ header {
 small {
     color: rgb(244, 198, 14);
 }
+
+.col.rounded.cards {
+    background-color: hsla(190, 98%, 47%, 0.521);
+  }
+  
