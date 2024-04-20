@@ -165,7 +165,7 @@ const groomTodayWeatherResults = function (){
   };
   
 aeolusPredictsToday.push(weather);
-localStorage.setItem("AeolusPredictsToday", JSON.stringify(aeolusPredictsToday))
+localStorage.setItem("aeolusPredictsToday", JSON.stringify(aeolusPredictsToday))
 };
 
 // prep results for 5day forcast
