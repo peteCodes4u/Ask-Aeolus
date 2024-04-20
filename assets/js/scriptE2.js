@@ -13,6 +13,8 @@ setTimeout(()=> {
   }, 2000)
 
   let latLong = [] || '';
+  let fiveDayforecast = [] || '';
+  let aeolusPredictsToday = [] || '';
 
 // event listener to set city and run city search for lat / long
 askAeolusBtn.addEventListener("click", function(){
@@ -34,10 +36,16 @@ const getCoordinates = function () {
 // adds delay to execute get latLong to ensure api has returned the necessary data
   setTimeout(()=> {
     getLatLong();
-    getWeatherForcastData();
+    getWeatherforecastData();
     todayWeather();
-  }, 2000)
+  }, 1000)
 
+  setTimeout(()=> {
+    prepareforecastResults();
+    groomTodayWeatherResults();
+    groomForecastWeatherResults();
+  }, 2000)
+  
 };
 
 // parse city info for lat/long data and save data to local storage
@@ -52,7 +60,7 @@ latLong.push(cityInfoData[0].boundingbox[2]);
 localStorage.setItem('latLong', JSON.stringify(latLong));
 };
 
-const getWeatherForcastData = function(){
+const getWeatherforecastData = function(){
 
 
 
@@ -65,7 +73,7 @@ const longitude = parseFloat(latLongData[1]);
 const roundLat = latitude.toFixed(2);
 const roundLong = longitude.toFixed(2); 
 
-// get the 5day forcast data from the api
+// get the 5day forecast data from the api
 fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${roundLat}&lon=${roundLong}&appid=${wApiKey}`, {
   method: 'GET', 
   credentials: 'same-origin', 
@@ -78,34 +86,34 @@ fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${roundLat}&lon=${ro
   })
   .then(function (data) {
     // store the data to local storage
-    localStorage.setItem('forcast', JSON.stringify(data.list));
+    localStorage.setItem('forecast', JSON.stringify(data.list));
 
   });
 
 };
 
 // prepare Results
-const prepareForcastResults = function () {
+const prepareforecastResults = function () {
 
   // retrieve weatherData from local storage
-  const forcast = JSON.parse(localStorage.getItem('forcast'));
-  const day1Weather =  forcast[4];
-  const day2Weather =   forcast[12];
-  const day3Weather =   forcast[20];
-  const day4Weather =   forcast[28];
-  const day5Weather =   forcast[36];
+  const forecast = JSON.parse(localStorage.getItem('forecast'));
+  const day1Weather =  forecast[4];
+  const day2Weather =   forecast[12];
+  const day3Weather =   forecast[20];
+  const day4Weather =   forecast[28];
+  const day5Weather =   forecast[36];
   
 
   // push data to new array for processing
-  let fiveDayForcast = [];
+  let fiveDayforecast = [];
 
-  fiveDayForcast.push(day1Weather);
-  fiveDayForcast.push(day2Weather);
-  fiveDayForcast.push(day3Weather);
-  fiveDayForcast.push(day4Weather);
-  fiveDayForcast.push(day5Weather);
+  fiveDayforecast.push(day1Weather);
+  fiveDayforecast.push(day2Weather);
+  fiveDayforecast.push(day3Weather);
+  fiveDayforecast.push(day4Weather);
+  fiveDayforecast.push(day5Weather);
 
-  localStorage.setItem('5dayForcast', JSON.stringify(fiveDayForcast));
+  localStorage.setItem('5dayforecast', JSON.stringify(fiveDayforecast));
 
 
 };
@@ -135,11 +143,52 @@ const todayWeather = function (){
   
     });
 
-
 };
 
+// prep the results for display
+const groomTodayWeatherResults = function (){
 
+  const todayWeather = JSON.parse(localStorage.getItem('todayWeather'));
 
+  const temp = ((todayWeather.main.temp-273.15)*1.8+32);
+  const wind = todayWeather.wind.speed;
+  const humidity = todayWeather.main.humidity;
+  const description = todayWeather.weather[0].description;
+
+  let aeolusPredictsToday = [];
+
+  let weather =  {
+    temp: temp,
+    wind: wind,
+    humidity: humidity,
+    weather: description
+  };
+  
+aeolusPredictsToday.push(weather);
+localStorage.setItem("AeolusPredictsToday", JSON.stringify(aeolusPredictsToday))
+};
+
+// prep results for 5day forcast
+const groomForecastWeatherResults = function () {
+  const fiveDayforecast = JSON.parse(localStorage.getItem('5dayforecast'));
+  let aeolusPredictsThisWeek = []; 
+
+  for (let i = 0; i < fiveDayforecast.length; i++) {
+    let temp = (fiveDayforecast[i].main.temp-273.15)*1.8+32;
+    let wind = fiveDayforecast[i].wind.speed;
+    let humidity = fiveDayforecast[i].main.humidity;
+    
+    let weather = {
+      temp: temp,
+      wind: wind,
+      humidity: humidity
+    };
+
+    aeolusPredictsThisWeek.push(weather);
+  }
+
+  localStorage.setItem("aeolusPredictsThisWeek", JSON.stringify(aeolusPredictsThisWeek));
+};
 
 
 // display resutls
