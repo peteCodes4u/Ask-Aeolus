@@ -231,10 +231,9 @@ const displayTodayResults = function () {
 
 };
 
-// display weekly forcast
-const displayForecastResults = function () {
+const displayForecastResults = function() {
   const forecastArray = JSON.parse(localStorage.getItem('aeolusPredictsThisWeek')) || [];
-  let currentDate = dayjs(); 
+  let currentDate = dayjs().add(1, 'day');
 
   forecastArray.forEach((item, index) => {
       const forecastData = [
@@ -246,8 +245,6 @@ const displayForecastResults = function () {
           },
       ];
 
-      // Add 1 day for each additional card
-      currentDate = currentDate.add(index, 'day');
       const formattedDate = currentDate.format('MMM D, YYYY');
 
       const container = document.getElementById('forecast');
@@ -259,11 +256,13 @@ const displayForecastResults = function () {
                   <p><a>humidity: ${day.humidity}%</a></p>
                   <p><a>wind: ${day.wind} MPH</a></p>
                   <p><a>${day.weather}</a></p>
-                  <p><a>${formattedDate}</a></p>
+                  <p><a>${formattedDate}</a></p> 
               </div>
           `;
 
           container.insertAdjacentHTML('beforeend', forecastHtml);
+
+          currentDate = currentDate.add(1, 'day');
       });
   });
 };
