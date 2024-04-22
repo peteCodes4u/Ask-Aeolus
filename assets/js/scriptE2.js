@@ -4,6 +4,19 @@ const wApiKey = 'f83ed09bfef7deff4712ba233666aef9'
 // establish constant for user city entry data
 const city = document.getElementById('city');
 
+// today's date formatting with dayJs
+const today = dayjs();
+$('#todayDate').text(today.format('MMM D, YYYY'));
+
+// day of week formatting with  dayJs
+const dayWeek = today.format(`dddd`);
+$('#dayOfWeek').text(dayWeek)
+
+// city display
+$('#cityDisplay').text(JSON.parse(localStorage.getItem('city')));
+
+
+
 // establish constant for askAoelus button to pull data
 const askAeolusBtn = document.getElementById('askAeolus');
 
@@ -45,7 +58,7 @@ const getCoordinates = function () {
     groomTodayWeatherResults();
     groomForecastWeatherResults();
     displayTodayResults();
-    displayForcastResults();
+    displayForecastResults();
   }, 1000)
 
 };
@@ -179,12 +192,14 @@ const groomForecastWeatherResults = function () {
     let wind = fiveDayforecast[i].wind.speed;
     let humidity = fiveDayforecast[i].main.humidity;
     let weather = fiveDayforecast[i].weather[0].main;
+    let date = fiveDayforecast[i].dt_txt;
 
     let weatherData = {
       temp: temp,
       wind: wind,
       humidity: humidity,
-      weather: weather
+      weather: weather,
+      date: date
     };
 
     aeolusPredictsThisWeek.push(weatherData);
@@ -199,7 +214,6 @@ const displayTodayResults = function () {
 
   const todayWeather = JSON.parse(localStorage.getItem('aeolusPredictsToday'))
 
-  // Get the container element to append the dynamically created HTML
   const container = document.getElementById('todayWeather');
 
 
@@ -213,52 +227,43 @@ const displayTodayResults = function () {
       </div >
       `;
 
-  // Append the dynamically created event HTML to the container
   container.insertAdjacentHTML('beforeend', todayWeatherHtml);
 
 };
 
 // display weekly forcast
-const displayForcastResults = function () {
+const displayForecastResults = function () {
+  const forecastArray = JSON.parse(localStorage.getItem('aeolusPredictsThisWeek')) || [];
+  let currentDate = dayjs(); 
 
-  const forcastArray = JSON.parse(localStorage.getItem('aeolusPredictsThisWeek')) || [];
+  forecastArray.forEach((item, index) => {
+      const forecastData = [
+          {
+              temp: item.temp,
+              humidity: item.humidity,
+              wind: item.wind,
+              weather: item.weather,
+          },
+      ];
 
-  forcastArray.forEach(item => {
+      // Add 1 day for each additional card
+      currentDate = currentDate.add(index, 'day');
+      const formattedDate = currentDate.format('MMM D, YYYY');
 
+      const container = document.getElementById('forecast');
 
-    const forcastData = [
-      {
-        temp: item.temp,
-        humidity: item.humidity,
-        wind: item.wind,
-        weather: item.weather
-      },
-    ];
+      forecastData.forEach((day) => {
+          const forecastHtml = `
+              <div class="col m-3 p-3 rounded text-center cards">
+                  <h1>${Math.round(day.temp)}°F</h1>
+                  <p><a>humidity: ${day.humidity}%</a></p>
+                  <p><a>wind: ${day.wind} MPH</a></p>
+                  <p><a>${day.weather}</a></p>
+                  <p><a>${formattedDate}</a></p>
+              </div>
+          `;
 
-    const container = document.getElementById('forecast');
-
-
-    forcastData.forEach((day) => {
-      const forecastHtml = `
-    <div class="col m-3 p-3 rounded text-center cards">
-    <h1>${Math.round(day.temp)}°F</h1>
-    <p><a>humiditiy: ${day.humidity}%</a></p>
-    <p><a>wind: ${day.wind} MPH</a></p>
-    <p><a>${day.weather}</a></p>
-    </div >
-        `;
-
-      // Append the dynamically created event HTML to the container
-      container.insertAdjacentHTML('beforeend', forecastHtml);
-    });
-
-
-  })
-
-
-
-
-
-
-
+          container.insertAdjacentHTML('beforeend', forecastHtml);
+      });
+  });
 };
