@@ -23,16 +23,19 @@ const askAeolusBtn = document.getElementById('askAeolus');
 // set time out for getCoordinates so that it does not fire off before data exists
 setTimeout(() => {
   getCoordinates();
-}, 50)
+}, 100)
 
 let latLong = [] || '';
 let fiveDayforecast = [] || '';
 let aeolusPredictsToday = [] || '';
+let citiesSearched = JSON.parse(sessionStorage.getItem("citiesSearched")) || [];
 
 // event listener to set city and run city search for lat / long
 askAeolusBtn.addEventListener("click", function () {
   localStorage.clear();
   localStorage.setItem("city", JSON.stringify(city.value));
+  citiesSearched.push(city.value);
+  sessionStorage.setItem("citiesSearched", JSON.stringify(citiesSearched));
 
 });
 
@@ -51,7 +54,7 @@ const getCoordinates = function () {
     getLatLong();
     getWeatherforecastData();
     todayWeather();
-  }, 500)
+  }, 1000)
 
   setTimeout(() => {
     prepareforecastResults();
@@ -59,7 +62,7 @@ const getCoordinates = function () {
     groomForecastWeatherResults();
     displayTodayResults();
     displayForecastResults();
-  }, 1000)
+  }, 2000)
 
 };
 
@@ -112,11 +115,11 @@ const prepareforecastResults = function () {
 
   // retrieve weatherData from local storage
   const forecast = JSON.parse(localStorage.getItem('forecast'));
-  const day1Weather = forecast[4];
-  const day2Weather = forecast[12];
-  const day3Weather = forecast[20];
-  const day4Weather = forecast[28];
-  const day5Weather = forecast[36];
+  const day1Weather = forecast[8];
+  const day2Weather = forecast[16];
+  const day3Weather = forecast[24];
+  const day4Weather = forecast[32];
+  const day5Weather = forecast[39];
 
 
   // push data to new array for processing
@@ -235,7 +238,7 @@ const displayForecastResults = function() {
   const forecastArray = JSON.parse(localStorage.getItem('aeolusPredictsThisWeek')) || [];
   let currentDate = dayjs().add(1, 'day');
 
-  forecastArray.forEach((item, index) => {
+  forecastArray.forEach(item => {
       const forecastData = [
           {
               temp: item.temp,
@@ -265,4 +268,34 @@ const displayForecastResults = function() {
           currentDate = currentDate.add(1, 'day');
       });
   });
+
+  addCityButtons();
 };
+
+
+const addCityButtons = function () {
+
+
+  const citySearchArray = JSON.parse(sessionStorage.getItem('citiesSearched'))
+
+  const container = document.getElementById('citySearched');
+
+
+  citySearchArray.forEach(item => {
+
+    const citySearchedHtml = `
+
+    <div id="citySearch" >
+    <aside class="d-flex flex-column bd-highlight mb-3">
+      <button id="${item}"  type="submit">${item}</button>
+    </aside>
+    </div>
+
+        `;
+
+      container.insertAdjacentHTML('beforeend', citySearchedHtml);
+
+  })
+
+};
+
