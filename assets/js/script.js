@@ -175,7 +175,7 @@ const groomTodayWeatherResults = function () {
   const temp = ((todayWeather.main.temp - 273.15) * 1.8 + 32);
   const wind = todayWeather.wind.speed;
   const humidity = todayWeather.main.humidity;
-  const description = todayWeather.weather[0].description;
+  const description = todayWeather.weather[0].main;
 
   let aeolusPredictsToday = [];
 
@@ -221,22 +221,23 @@ const groomForecastWeatherResults = function () {
 const displayTodayResults = function () {
 
   const todayWeather = JSON.parse(localStorage.getItem('aeolusPredictsToday'))
-
   const container = document.getElementById('todayWeather');
 
-
+  determineTDWeatherImg(); 
+ 
   const todayWeatherHtml = `
+
       <div class="col m-3 p-3 rounded text-center cards">
-          <h1>${Math.round(todayWeather[0].temp)}°F</h1>
-          <p><a>humiditiy: ${todayWeather[0].humidity}%</a></p>
-          <p><a>wind: ${todayWeather[0].wind} MPH</a></p>
-          <p><a>${todayWeather[0].weather}</a></p>
-          
+      <img class= "weatherImage" src="${imgSrc}">
+          <h1 id="tDayTxt">${Math.round(todayWeather[0].temp)}°F</h1>
+          <p class="forecastDetails"><a>humiditiy: ${todayWeather[0].humidity}%</a></p>
+          <p class="forecastDetails"><a>wind: ${todayWeather[0].wind} MPH</a></p>
+          <p class="forecastDetails"><a>${todayWeather[0].weather}</a></p>
       </div >
+
       `;
 
   container.insertAdjacentHTML('beforeend', todayWeatherHtml);
-
 };
 
 const displayForecastResults = function () {
@@ -256,15 +257,79 @@ const displayForecastResults = function () {
     const formattedDate = currentDate.format('MMM D, YYYY');
 
     const container = document.getElementById('forecast');
-
+    
     forecastData.forEach((day) => {
+      
+      // Image logic to select based on day.weather value
+      if( day.weather == "Snow" )
+      { 
+        const randomIndex = Math.floor(Math.random() * snowImg.length);
+        imgSrc = snowImg[randomIndex];
+      } else 
+      if(day.weather == "Thunderstorm")
+      {
+        const randomIndex = Math.floor(Math.random() * thunderstormImg.length);
+        imgSrc = thunderstormImg[randomIndex];
+      } else
+      if(day.weather == 'Drizzle') 
+      { 
+        const randomIndex = Math.floor(Math.random() * drizzleImg.length);
+         imgSrc = drizzleImg[randomIndex];
+      } else 
+      if(day.weather == 'Rain')
+       { 
+        const randomIndex = Math.floor(Math.random() * rainImg.length); 
+        imgSrc = rainImg[randomIndex];
+      } else
+      if(day.weather == 'Mist') 
+      {
+         const randomIndex = Math.floor(Math.random() * mistImg.length);
+          imgSrc = mistImg[randomIndex];
+      } else
+      if(day.weather == 'Smoke') 
+      { 
+        const randomIndex = Math.floor(Math.random() * smokeImg.length);
+         imgSrc = smokeImg[randomIndex];
+      } else
+      if(day.weather == 'Haze') 
+      { 
+        const randomIndex = Math.floor(Math.random() * hazeImg.length);
+         imgSrc = hazeImg[randomIndex];
+      } else 
+      if(day.weather == 'Dust') 
+      {  imgSrc = dustImg; } else 
+      if(day.weather == 'Fog') 
+      { 
+        const randomIndex = Math.floor(Math.random() * fogImg.length);
+         imgSrc = fogImg[randomIndex];
+      } else
+      if(day.weather == 'Sand') 
+      { 
+        const randomIndex = Math.floor(Math.random() * sandImg.length);
+         imgSrc = sandImg[randomIndex];
+      } else
+      if(day.weather == 'Ash') { imgSrc = ashImg;} else
+      if(day.weather == 'Squall') { imgSrc = squallImg;} else
+      if(day.weather == 'Tornado') { imgSrc = tornadoImg;} else
+      if(day.weather == 'Clear') 
+      { 
+        const randomIndex = Math.floor(Math.random() * clearImg.length);
+         imgSrc = clearImg[randomIndex];
+      } else 
+      if(day.weather == 'Clouds') 
+      { 
+        const randomIndex = Math.floor(Math.random() * cloudsImg.length);
+         imgSrc = cloudsImg[randomIndex];
+      }
+
       const forecastHtml = `
               <div class="col m-3 p-3 rounded text-center cards">
-                  <h1>${Math.round(day.temp)}°F</h1>
-                  <p><a>humidity: ${day.humidity}%</a></p>
-                  <p><a>wind: ${day.wind} MPH</a></p>
-                  <p><a>${day.weather}</a></p>
-                  <p><a>${formattedDate}</a></p> 
+                  <h1 class="forecastHtxt">${Math.round(day.temp)}°F</h1>
+                  <p class="forecastDetails"><a>humidity: ${day.humidity}%</a></p>
+                  <p class="forecastDetails"><a>wind: ${day.wind} MPH</a></p>
+                  <p class="forecastDetails"><a>${day.weather}</a></p>
+                  <p class="forecastDetails"><a>${formattedDate}</a></p>
+                  <img class= "forecastImage" src="${imgSrc}"> 
               </div>
           `;
 
