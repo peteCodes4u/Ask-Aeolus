@@ -51,3 +51,10 @@ main {
     background-position: center;
 }
 
+.forecastImage {
+
+    height: 200px;
+    width: 200px;
+    background-position: center;
+}
+

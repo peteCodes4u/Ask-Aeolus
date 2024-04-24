@@ -223,7 +223,7 @@ const displayTodayResults = function () {
   const todayWeather = JSON.parse(localStorage.getItem('aeolusPredictsToday'))
   const container = document.getElementById('todayWeather');
 
- determineWeatherImg(); 
+  determineTDWeatherImg(); 
  
   const todayWeatherHtml = `
 
@@ -257,15 +257,79 @@ const displayForecastResults = function () {
     const formattedDate = currentDate.format('MMM D, YYYY');
 
     const container = document.getElementById('forecast');
-
+    
     forecastData.forEach((day) => {
+      
+      // Image logic to select based on day.weather value
+      if( day.weather == "Snow" )
+      { 
+        const randomIndex = Math.floor(Math.random() * snowImg.length);
+        imgSrc = snowImg[randomIndex];
+      } else 
+      if(day.weather == "Thunderstorm")
+      {
+        const randomIndex = Math.floor(Math.random() * thunderstormImg.length);
+        imgSrc = thunderstormImg[randomIndex];
+      } else
+      if(day.weather == 'Drizzle') 
+      { 
+        const randomIndex = Math.floor(Math.random() * drizzleImg.length);
+         imgSrc = drizzleImg[randomIndex];
+      } else 
+      if(day.weather == 'Rain')
+       { 
+        const randomIndex = Math.floor(Math.random() * rainImg.length); 
+        imgSrc = rainImg[randomIndex];
+      } else
+      if(day.weather == 'Mist') 
+      {
+         const randomIndex = Math.floor(Math.random() * mistImg.length);
+          imgSrc = mistImg[randomIndex];
+      } else
+      if(day.weather == 'Smoke') 
+      { 
+        const randomIndex = Math.floor(Math.random() * smokeImg.length);
+         imgSrc = smokeImg[randomIndex];
+      } else
+      if(day.weather == 'Haze') 
+      { 
+        const randomIndex = Math.floor(Math.random() * hazeImg.length);
+         imgSrc = hazeImg[randomIndex];
+      } else 
+      if(day.weather == 'Dust') 
+      {  imgSrc = dustImg; } else 
+      if(day.weather == 'Fog') 
+      { 
+        const randomIndex = Math.floor(Math.random() * fogImg.length);
+         imgSrc = fogImg[randomIndex];
+      } else
+      if(day.weather == 'Sand') 
+      { 
+        const randomIndex = Math.floor(Math.random() * sandImg.length);
+         imgSrc = sandImg[randomIndex];
+      } else
+      if(day.weather == 'Ash') { imgSrc = ashImg;} else
+      if(day.weather == 'Squall') { imgSrc = squallImg;} else
+      if(day.weather == 'Tornado') { imgSrc = tornadoImg;} else
+      if(day.weather == 'Clear') 
+      { 
+        const randomIndex = Math.floor(Math.random() * clearImg.length);
+         imgSrc = clearImg[randomIndex];
+      } else 
+      if(day.weather == 'Clouds') 
+      { 
+        const randomIndex = Math.floor(Math.random() * cloudsImg.length);
+         imgSrc = cloudsImg[randomIndex];
+      }
+
       const forecastHtml = `
               <div class="col m-3 p-3 rounded text-center cards">
                   <h1 class="forecastHtxt">${Math.round(day.temp)}°F</h1>
                   <p class="forecastDetails"><a>humidity: ${day.humidity}%</a></p>
                   <p class="forecastDetails"><a>wind: ${day.wind} MPH</a></p>
                   <p class="forecastDetails"><a>${day.weather}</a></p>
-                  <p class="forecastDetails"><a>${formattedDate}</a></p> 
+                  <p class="forecastDetails"><a>${formattedDate}</a></p>
+                  <img class= "forecastImage" src="${imgSrc}"> 
               </div>
           `;
 
