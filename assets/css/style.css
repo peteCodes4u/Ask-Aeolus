@@ -13,15 +13,34 @@ header {
 }
 
 small {
-    color: rgb(244, 198, 14);
+    color: rgb(252, 202, 2);
     font-weight: bold;
     text-shadow: 2px 3px 4px;
-    font-size: 30px;
+    font-size: 25px;
     -webkit-text-stroke-color: black;
-    -webkit-text-stroke-width: 0.5px;
+    -webkit-text-stroke-width: 1px;
 }
 
 .col.rounded.cards {
     background-color: hsla(190, 98%, 47%, 0.521);
   }
   
+main {
+    background-image:linear-gradient(to left, #3ac0d5, #0a022d);
+}
+
+#topTextDisplay, #tDayTxt, .forecastHtxt, #forecastHeader {
+
+    color: rgb(244, 198, 14);
+    text-shadow: 2px 3px 4px;
+    -webkit-text-stroke-color: black;
+    -webkit-text-stroke-width: 1px;
+    
+}
+
+.forecastDetails {
+
+    color: #fff;
+
+}
+

@@ -227,10 +227,10 @@ const displayTodayResults = function () {
 
   const todayWeatherHtml = `
       <div class="col m-3 p-3 rounded text-center cards">
-          <h1>${Math.round(todayWeather[0].temp)}°F</h1>
-          <p><a>humiditiy: ${todayWeather[0].humidity}%</a></p>
-          <p><a>wind: ${todayWeather[0].wind} MPH</a></p>
-          <p><a>${todayWeather[0].weather}</a></p>
+          <h1 id="tDayTxt">${Math.round(todayWeather[0].temp)}°F</h1>
+          <p class="forecastDetails"><a>humiditiy: ${todayWeather[0].humidity}%</a></p>
+          <p class="forecastDetails"><a>wind: ${todayWeather[0].wind} MPH</a></p>
+          <p class="forecastDetails"><a>${todayWeather[0].weather}</a></p>
           
       </div >
       `;
@@ -260,11 +260,11 @@ const displayForecastResults = function () {
     forecastData.forEach((day) => {
       const forecastHtml = `
               <div class="col m-3 p-3 rounded text-center cards">
-                  <h1>${Math.round(day.temp)}°F</h1>
-                  <p><a>humidity: ${day.humidity}%</a></p>
-                  <p><a>wind: ${day.wind} MPH</a></p>
-                  <p><a>${day.weather}</a></p>
-                  <p><a>${formattedDate}</a></p> 
+                  <h1 class="forecastHtxt">${Math.round(day.temp)}°F</h1>
+                  <p class="forecastDetails"><a>humidity: ${day.humidity}%</a></p>
+                  <p class="forecastDetails"><a>wind: ${day.wind} MPH</a></p>
+                  <p class="forecastDetails"><a>${day.weather}</a></p>
+                  <p class="forecastDetails"><a>${formattedDate}</a></p> 
               </div>
           `;
 

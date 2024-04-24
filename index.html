@@ -29,10 +29,10 @@
       <small id="subTitle" class="text-center">A weather forecasting app for your travel needs.</small>
     </span>
   </header>
-  <br>
   <main class="d-flex justify-content-center">
     <div id="appContent">
       <div id="aeolusContent">
+        <br>
         <section class="card">
           <h3 class="card-header text-uppercase d-flex justify-content-center">Search for a city</h3>
           <form id="user-form" class="card-body d-flex justify-content-center">
@@ -43,14 +43,14 @@
         </section>
         <br>
         <section class="justify-content-center" id="todayWeather">
-          <h2 class="d-flex justify-content-around">
+          <h2 id="topTextDisplay" class="d-flex justify-content-around">
             <p id="cityDisplay"></p>
             <p id="dayOfWeek"></p>
             <p id="todayDate"></p>
           </h2>
         </section>
         <section class="row" id="forecast">
-          <h2 class="subtitle text-center">5 Day forecast: <span id="repo-search-term"></span></h2>
+          <h2 id="forecastHeader" class="subtitle text-center">5 Day forecast: <span id="repo-search-term"></span></h2>
           <div id="forecast-container" class="d-flex flex-row"></div>
         </section>
       </div>
