@@ -1,9 +1,24 @@
 header {
-   background-image:linear-gradient(to left, #3ac0d5, #0a022d);;
+    height: 35vh; /* Set the height of the header to 100% of the viewport height */
+    background-image: url("https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExbms4cW44dmhkNXF3eWlxZXY0eHVpNjltbjQ4d2RuM3I3aW9lODUwcyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/0Styincf6K2tvfjb5Q/giphy.gif");
+    background-size: 100% auto; /* Set the background image to cover 100% of the width and maintain its aspect ratio for the height */
+    background-repeat: no-repeat; /* Prevent the background image from repeating */
+}
+
+#askAeolusTitle {
+
+    text-shadow: 2px 3px 4px;
+    -webkit-text-stroke-color: black;
+    -webkit-text-stroke-width: 1px;
 }
 
 small {
     color: rgb(244, 198, 14);
+    font-weight: bold;
+    text-shadow: 2px 3px 4px;
+    font-size: 30px;
+    -webkit-text-stroke-color: black;
+    -webkit-text-stroke-width: 0.5px;
 }
 
 .col.rounded.cards {
