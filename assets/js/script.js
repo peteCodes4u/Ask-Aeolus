@@ -175,7 +175,7 @@ const groomTodayWeatherResults = function () {
   const temp = ((todayWeather.main.temp - 273.15) * 1.8 + 32);
   const wind = todayWeather.wind.speed;
   const humidity = todayWeather.main.humidity;
-  const description = todayWeather.weather[0].description;
+  const description = todayWeather.weather[0].main;
 
   let aeolusPredictsToday = [];
 
@@ -221,22 +221,23 @@ const groomForecastWeatherResults = function () {
 const displayTodayResults = function () {
 
   const todayWeather = JSON.parse(localStorage.getItem('aeolusPredictsToday'))
-
   const container = document.getElementById('todayWeather');
 
-
+ determineWeatherImg(); 
+ 
   const todayWeatherHtml = `
+
       <div class="col m-3 p-3 rounded text-center cards">
+      <img class= "weatherImage" src="${imgSrc}">
           <h1 id="tDayTxt">${Math.round(todayWeather[0].temp)}°F</h1>
           <p class="forecastDetails"><a>humiditiy: ${todayWeather[0].humidity}%</a></p>
           <p class="forecastDetails"><a>wind: ${todayWeather[0].wind} MPH</a></p>
           <p class="forecastDetails"><a>${todayWeather[0].weather}</a></p>
-          
       </div >
+
       `;
 
   container.insertAdjacentHTML('beforeend', todayWeatherHtml);
-
 };
 
 const displayForecastResults = function () {
