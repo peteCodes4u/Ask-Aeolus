@@ -39,7 +39,9 @@ let citiesSearched = JSON.parse(sessionStorage.getItem("citiesSearched")) || [];
 askAeolusBtn.addEventListener("click", function () {
   localStorage.clear();
   localStorage.setItem("city", JSON.stringify(city.value));
-  citiesSearched.push(city.value);
+
+  // push cities to session storage for button generation only if the city is not already in the list
+  if(citiesSearched.includes(city.value) === false) { citiesSearched.push(city.value); }
   sessionStorage.setItem("citiesSearched", JSON.stringify(citiesSearched));
 
 });
