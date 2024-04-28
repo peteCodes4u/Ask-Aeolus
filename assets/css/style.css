@@ -22,7 +22,7 @@ small {
 }
 
 .col.rounded.cards {
-    background-color: hsla(190, 98%, 47%, 0.521);
+    background-image: linear-gradient(to right, #3ac0d5, #b94ea0)
   }
   
 main {
@@ -58,3 +58,33 @@ main {
     background-position: center;
 }
 
+.forecastCards {
+
+    text-shadow: 2px 3px 4px;
+    box-shadow: 10px 10px 5px rgb(64, 27, 69);
+}
+
+.todayCard {
+
+    box-shadow: 10px 10px 5px rgb(64, 27, 69);
+}
+
+#cityEntryForm {
+
+    background-image: linear-gradient(to right, #3ac0d5, #e65fc6);
+    box-shadow: 10px 10px 5px rgb(64, 27, 69);
+    
+}
+
+.citySearch {
+    color: #ffff;
+    text-shadow: 2px 3px 4px;
+    background-image: linear-gradient(to right, #d5853a, #850391);
+    box-shadow: 10px 10px 5px rgb(64, 27, 69);
+}
+
+#formHeader {
+    color: #ffff;
+    text-shadow: 2px 3px 4px;
+    background-image: linear-gradient(to right, #d5853a, #850391);
+}

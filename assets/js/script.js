@@ -230,7 +230,7 @@ const displayTodayResults = () => {
 
   const todayWeatherHtml = `
 
-      <div class="col m-3 p-3 rounded text-center cards">
+      <div class="todayCard col m-3 p-3 rounded text-center cards">
       <img class= "weatherImage rounded" src="${imgSrc}">
           <h1 id="tDayTxt">${Math.round(todayWeather[0].temp)}°F</h1>
           <p class="forecastDetails"><a>humiditiy: ${todayWeather[0].humidity}%</a></p>
@@ -314,7 +314,7 @@ const displayForecastResults = () => {
                                   }
 
       const forecastHtml = `
-              <div class="col m-3 p-3 rounded text-center cards">
+              <div class="forecastCards col m-3 p-3 rounded text-center cards">
                   <h1 class="forecastHtxt">${Math.round(day.temp)}°F</h1>
                   <p class="forecastDetails"><a>humidity: ${day.humidity}%</a></p>
                   <p class="forecastDetails"><a>wind: ${day.wind} MPH</a></p>
