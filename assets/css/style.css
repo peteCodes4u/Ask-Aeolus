@@ -1,8 +1,8 @@
 header {
-    height: 35vh; /* Set the height of the header to 100% of the viewport height */
+    height: 35vh; 
     background-image: url("https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExbms4cW44dmhkNXF3eWlxZXY0eHVpNjltbjQ4d2RuM3I3aW9lODUwcyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/0Styincf6K2tvfjb5Q/giphy.gif");
-    background-size: 100% auto; /* Set the background image to cover 100% of the width and maintain its aspect ratio for the height */
-    background-repeat: no-repeat; /* Prevent the background image from repeating */
+    background-size: 100% auto; 
+    background-repeat: no-repeat; 
 }
 
 #askAeolusTitle {

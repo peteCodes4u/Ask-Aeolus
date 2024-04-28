@@ -151,15 +151,3 @@ const determineTDWeatherImg = function () {
   }
 
 };
-
-// function for forcast cards images
-const determineFweatherImg = function (){
-
-  const forecastArray = JSON.parse(localStorage.getItem('aeolusPredictsThisWeek'))
-
-  forecastArray.forEach((day) => {
-
-
-  });
-};
-

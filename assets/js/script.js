@@ -1,5 +1,19 @@
-// openweather api key
-const wApiKey = 'f83ed09bfef7deff4712ba233666aef9'
+// function to generate key (hide in plain sight)
+
+const generateKey = () => {
+
+  const alg1 = 'f83ed09bfe';
+  const alg2 = 'f7deff4712';
+  const alg3 = 'ba233666aef9';
+
+  ApikeyGenVal = alg1 + alg2 + alg3;
+
+  return ApikeyGenVal;
+
+};
+
+// key needed to return weather data
+const wApiKey = generateKey();
 
 // establish constant for user city entry data
 const city = document.getElementById('city');
@@ -16,10 +30,7 @@ $('#dayOfWeek').text(dayWeek)
 $('#cityDisplay').text(JSON.parse(localStorage.getItem('city')));
 
 // set city to mt. olympus on load
-
 if (localStorage.getItem('city') == null) { $('#cityDisplay').text('Mt. Olympus') };
-
-
 
 // establish constant for askAoelus button to pull data
 const askAeolusBtn = document.getElementById('askAeolus');
@@ -29,11 +40,11 @@ setTimeout(() => {
   getCoordinates();
 }, 100)
 
+// initialize arrays for local storage data handling
 let latLong = [] || '';
 let fiveDayforecast = [] || '';
 let aeolusPredictsToday = [] || '';
 let citiesSearched = JSON.parse(sessionStorage.getItem("citiesSearched")) || [];
-
 
 // event listener to set city and run city search for lat / long
 askAeolusBtn.addEventListener("click", function () {
@@ -41,13 +52,14 @@ askAeolusBtn.addEventListener("click", function () {
   localStorage.setItem("city", JSON.stringify(city.value));
 
   // push cities to session storage for button generation only if the city is not already in the list
-  if(citiesSearched.includes(city.value) === false) { citiesSearched.push(city.value); }
+  if (citiesSearched.includes(city.value) === false) {
+    citiesSearched.push(city.value);
+  }
   sessionStorage.setItem("citiesSearched", JSON.stringify(citiesSearched));
-
 });
 
-// city info value https://nominatim.openstreetmap.org/search?
-const getCoordinates = function () {
+// this function handles multiple sequential events and retrieves lat / long data from openstreetmap API for core site functionality
+const getCoordinates = () => {
 
   let cityData = JSON.parse(localStorage.getItem("city"));
 
@@ -74,10 +86,9 @@ const getCoordinates = function () {
 };
 
 // parse city info for lat/long data and save data to local storage
-const getLatLong = function () {
+const getLatLong = () => {
 
   let cityInfoData = JSON.parse(localStorage.getItem('cityInfo'));
-
 
   latLong.push(cityInfoData[0].boundingbox[0]);
   latLong.push(cityInfoData[0].boundingbox[2]);
@@ -85,9 +96,7 @@ const getLatLong = function () {
   localStorage.setItem('latLong', JSON.stringify(latLong));
 };
 
-const getWeatherforecastData = function () {
-
-
+const getWeatherforecastData = () => {
 
   // get lat/long from localstorage
   const latLongData = JSON.parse(localStorage.getItem('latLong'))
@@ -110,15 +119,13 @@ const getWeatherforecastData = function () {
 
     })
     .then(function (data) {
-      // store the data to local storage
       localStorage.setItem('forecast', JSON.stringify(data.list));
-
     });
 
 };
 
-// prepare Results
-const prepareforecastResults = function () {
+// function to prepare results for display
+const prepareforecastResults = () => {
 
   // retrieve weatherData from local storage
   const forecast = JSON.parse(localStorage.getItem('forecast'));
@@ -127,7 +134,6 @@ const prepareforecastResults = function () {
   const day3Weather = forecast[24];
   const day4Weather = forecast[32];
   const day5Weather = forecast[39];
-
 
   // push data to new array for processing
   let fiveDayforecast = [];
@@ -143,15 +149,13 @@ const prepareforecastResults = function () {
 };
 
 // get today's weather
-const todayWeather = function () {
+const todayWeather = () => {
 
   const latLongData = JSON.parse(localStorage.getItem('latLong'))
-  const latitude = parseFloat(latLongData[0]);
-  const longitude = parseFloat(latLongData[1]);
-  const roundLat = latitude.toFixed(2);
-  const roundLong = longitude.toFixed(2);
+  const latitude = parseFloat(latLongData[0]).toFixed(2);
+  const longitude = parseFloat(latLongData[1]).toFixed(2);
 
-  fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${roundLat}&lon=${roundLong}&appid=${wApiKey}`, {
+  fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${wApiKey}`, {
     method: 'GET',
     credentials: 'same-origin',
     redirect: 'follow',
@@ -159,18 +163,15 @@ const todayWeather = function () {
   })
     .then(function (response) {
       return response.json();
-
     })
     .then(function (data) {
-      // store the data to local storage
       localStorage.setItem('todayWeather', JSON.stringify(data));
-
     });
 
 };
 
-// prep the results for display
-const groomTodayWeatherResults = function () {
+// function to process the results and prep for display
+const groomTodayWeatherResults = () => {
 
   const todayWeather = JSON.parse(localStorage.getItem('todayWeather'));
 
@@ -192,8 +193,8 @@ const groomTodayWeatherResults = function () {
   localStorage.setItem("aeolusPredictsToday", JSON.stringify(aeolusPredictsToday))
 };
 
-// prep results for 5day forcast
-const groomForecastWeatherResults = function () {
+// prep 5 day forcast results for display
+const groomForecastWeatherResults = () => {
   const fiveDayforecast = JSON.parse(localStorage.getItem('5dayforecast'));
   let aeolusPredictsThisWeek = [];
 
@@ -220,13 +221,13 @@ const groomForecastWeatherResults = function () {
 
 
 // display results for today's weather
-const displayTodayResults = function () {
+const displayTodayResults = () => {
 
   const todayWeather = JSON.parse(localStorage.getItem('aeolusPredictsToday'))
   const container = document.getElementById('todayWeather');
 
-  determineTDWeatherImg(); 
- 
+  determineTDWeatherImg();
+
   const todayWeatherHtml = `
 
       <div class="col m-3 p-3 rounded text-center cards">
@@ -242,7 +243,7 @@ const displayTodayResults = function () {
   container.insertAdjacentHTML('beforeend', todayWeatherHtml);
 };
 
-const displayForecastResults = function () {
+const displayForecastResults = () => {
   const forecastArray = JSON.parse(localStorage.getItem('aeolusPredictsThisWeek')) || [];
   let currentDate = dayjs().add(1, 'day');
 
@@ -259,70 +260,58 @@ const displayForecastResults = function () {
     const formattedDate = currentDate.format('MMM D, YYYY');
 
     const container = document.getElementById('forecast');
-    
+
     forecastData.forEach((day) => {
-      
+
       // Image logic to select based on day.weather value
-      if( day.weather == "Snow" )
-      { 
+      if (day.weather == "Snow") {
         const randomIndex = Math.floor(Math.random() * snowImg.length);
         imgSrc = snowImg[randomIndex];
-      } else 
-      if(day.weather == "Thunderstorm")
-      {
-        const randomIndex = Math.floor(Math.random() * thunderstormImg.length);
-        imgSrc = thunderstormImg[randomIndex];
       } else
-      if(day.weather == 'Drizzle') 
-      { 
-        const randomIndex = Math.floor(Math.random() * drizzleImg.length);
-         imgSrc = drizzleImg[randomIndex];
-      } else 
-      if(day.weather == 'Rain')
-       { 
-        const randomIndex = Math.floor(Math.random() * rainImg.length); 
-        imgSrc = rainImg[randomIndex];
-      } else
-      if(day.weather == 'Mist') 
-      {
-         const randomIndex = Math.floor(Math.random() * mistImg.length);
-          imgSrc = mistImg[randomIndex];
-      } else
-      if(day.weather == 'Smoke') 
-      { 
-        const randomIndex = Math.floor(Math.random() * smokeImg.length);
-         imgSrc = smokeImg[randomIndex];
-      } else
-      if(day.weather == 'Haze') 
-      { 
-        const randomIndex = Math.floor(Math.random() * hazeImg.length);
-         imgSrc = hazeImg[randomIndex];
-      } else 
-      if(day.weather == 'Dust') 
-      {  imgSrc = dustImg; } else 
-      if(day.weather == 'Fog') 
-      { 
-        const randomIndex = Math.floor(Math.random() * fogImg.length);
-         imgSrc = fogImg[randomIndex];
-      } else
-      if(day.weather == 'Sand') 
-      { 
-        const randomIndex = Math.floor(Math.random() * sandImg.length);
-         imgSrc = sandImg[randomIndex];
-      } else
-      if(day.weather == 'Ash') { imgSrc = ashImg;} else
-      if(day.weather == 'Squall') { imgSrc = squallImg;} else
-      if(day.weather == 'Tornado') { imgSrc = tornadoImg;} else
-      if(day.weather == 'Clear') 
-      { 
-        const randomIndex = Math.floor(Math.random() * clearImg.length);
-         imgSrc = clearImg[randomIndex];
-      } else 
-      if(day.weather == 'Clouds') 
-      { 
-        const randomIndex = Math.floor(Math.random() * cloudsImg.length);
-         imgSrc = cloudsImg[randomIndex];
-      }
+        if (day.weather == "Thunderstorm") {
+          const randomIndex = Math.floor(Math.random() * thunderstormImg.length);
+          imgSrc = thunderstormImg[randomIndex];
+        } else
+          if (day.weather == 'Drizzle') {
+            const randomIndex = Math.floor(Math.random() * drizzleImg.length);
+            imgSrc = drizzleImg[randomIndex];
+          } else
+            if (day.weather == 'Rain') {
+              const randomIndex = Math.floor(Math.random() * rainImg.length);
+              imgSrc = rainImg[randomIndex];
+            } else
+              if (day.weather == 'Mist') {
+                const randomIndex = Math.floor(Math.random() * mistImg.length);
+                imgSrc = mistImg[randomIndex];
+              } else
+                if (day.weather == 'Smoke') {
+                  const randomIndex = Math.floor(Math.random() * smokeImg.length);
+                  imgSrc = smokeImg[randomIndex];
+                } else
+                  if (day.weather == 'Haze') {
+                    const randomIndex = Math.floor(Math.random() * hazeImg.length);
+                    imgSrc = hazeImg[randomIndex];
+                  } else
+                    if (day.weather == 'Dust') { imgSrc = dustImg; } else
+                      if (day.weather == 'Fog') {
+                        const randomIndex = Math.floor(Math.random() * fogImg.length);
+                        imgSrc = fogImg[randomIndex];
+                      } else
+                        if (day.weather == 'Sand') {
+                          const randomIndex = Math.floor(Math.random() * sandImg.length);
+                          imgSrc = sandImg[randomIndex];
+                        } else
+                          if (day.weather == 'Ash') { imgSrc = ashImg; } else
+                            if (day.weather == 'Squall') { imgSrc = squallImg; } else
+                              if (day.weather == 'Tornado') { imgSrc = tornadoImg; } else
+                                if (day.weather == 'Clear') {
+                                  const randomIndex = Math.floor(Math.random() * clearImg.length);
+                                  imgSrc = clearImg[randomIndex];
+                                } else
+                                  if (day.weather == 'Clouds') {
+                                    const randomIndex = Math.floor(Math.random() * cloudsImg.length);
+                                    imgSrc = cloudsImg[randomIndex];
+                                  }
 
       const forecastHtml = `
               <div class="col m-3 p-3 rounded text-center cards">
@@ -344,8 +333,8 @@ const displayForecastResults = function () {
   addCityButtons();
 };
 
-
-const addCityButtons = function () {
+// function to generate the city buttons after a user searches a city
+const addCityButtons = () => {
 
   let citiesSearched = JSON.parse(sessionStorage.getItem("citiesSearched"));
   const citySearchArray = citiesSearched;
