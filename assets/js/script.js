@@ -48,25 +48,34 @@ let citiesSearched = JSON.parse(sessionStorage.getItem("citiesSearched")) || [];
 
 // event listener to set city and run city search for lat / long
 askAeolusBtn.addEventListener("click", function () {
-  localStorage.clear();
-  localStorage.setItem("city", JSON.stringify(city.value));
 
-  // push cities to session storage for button generation only if the city is not already in the list
-  if (citiesSearched.includes(city.value) === false) {
-    citiesSearched.push(city.value);
+  localStorage.clear();
+
+
+  if (city.value == '') { alert("Please enter a valid city name") } else {
+
+    localStorage.setItem("city", JSON.stringify(city.value));
+
+    // push cities to session storage for button generation only if the city is not already in the list
+    if (citiesSearched.includes(city.value) === false) {
+
+      citiesSearched.push(city.value);
+      sessionStorage.setItem("citiesSearched", JSON.stringify(citiesSearched));
+    }
+
   }
-  sessionStorage.setItem("citiesSearched", JSON.stringify(citiesSearched));
 });
 
 // this function handles multiple sequential events and retrieves lat / long data from openstreetmap API for core site functionality
 const getCoordinates = () => {
+
 
   let cityData = JSON.parse(localStorage.getItem("city"));
 
   fetch(`https://nominatim.openstreetmap.org/search?q=${cityData}&format=json&addressdetails=1&limit=1&polygon_svg=1`)
     .then(response => response.json())
     .then(response => localStorage.setItem('cityInfo', JSON.stringify(response)))
-    .catch(err => console.error(err));
+    .catch(error => console.log(error));
 
   // adds delay to execute get latLong to ensure api has returned the necessary data
   setTimeout(() => {
@@ -94,21 +103,19 @@ const getLatLong = () => {
   latLong.push(cityInfoData[0].boundingbox[2]);
 
   localStorage.setItem('latLong', JSON.stringify(latLong));
+
 };
 
 const getWeatherforecastData = () => {
 
   // get lat/long from localstorage
   const latLongData = JSON.parse(localStorage.getItem('latLong'))
-  const latitude = parseFloat(latLongData[0]);
-  const longitude = parseFloat(latLongData[1]);
+  const latitude = parseFloat(latLongData[0]).toFixed(2);
+  const longitude = parseFloat(latLongData[1]).toFixed(2);
 
-  // round the data for API consumption
-  const roundLat = latitude.toFixed(2);
-  const roundLong = longitude.toFixed(2);
 
   // get the 5day forecast data from the api
-  fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${roundLat}&lon=${roundLong}&appid=${wApiKey}`, {
+  fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${wApiKey}`, {
     method: 'GET',
     credentials: 'same-origin',
     redirect: 'follow',
