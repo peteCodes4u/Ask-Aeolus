@@ -16,7 +16,7 @@ https://petecodes4u.github.io/Ask-Aeolus/
 
 The intended usage of this application is to display weather data based on locations by city name. 
 
-![](./assets/images/tbd.gif)
+![](./assets/images/askAeolus.gif)
 
 ## Features
 
